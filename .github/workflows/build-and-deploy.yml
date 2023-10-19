@@ -27,15 +27,21 @@ jobs:
       - name: Build Angular project
         run: ng build --aot --build-optimizer --base-href=/auto-build/
 
-      - name: Deploy to live branch
+   - name: Deploy to live branch
+        run: |
+          git checkout live
+          git pull origin live
+          rm -rf *
+          mv dist/* ./
+          git add -A
+          git commit -m "Auto-deploy from main branch"
+          git push
+
+      - name: Set up Git
         run: |
           git config user.name "loay98"
           git config user.email "loay@prosys.ai"
-          git checkout -b live
-          git rm -r --cached .
-          mv dist/* .   # Move the contents of the dist directory to the root
-          git add .
-          git commit -m "Deploying latest build"
-          git remote set-url origin https://$PAT_TOKEN@github.com/loay98/auto-build.git
-          git push origin live
+
+      - name: Push changes to live branch
+        run: git push origin live
 

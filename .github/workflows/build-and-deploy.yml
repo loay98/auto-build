@@ -27,7 +27,7 @@ jobs:
       - name: Build Angular project
         run: ng build --aot --build-optimizer --base-href=/auto-build/
 
-   - name: Deploy to live branch
+      - name: Deploy to live branch
         run: |
           git checkout live
           git pull origin live

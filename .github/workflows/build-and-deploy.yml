@@ -34,7 +34,6 @@ jobs:
           git checkout -b live
           git add dist/   # Assuming your build output is in a 'dist' folder
           git commit -m "Deploying latest build"
+          git remote set-url origin https://$PAT_TOKEN@github.com/loay98/auto-build.git
           git push origin live
-        env:
-          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
 

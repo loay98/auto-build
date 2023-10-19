@@ -32,8 +32,9 @@ jobs:
           git config user.name "loay98"
           git config user.email "loay@prosys.ai"
           git checkout -b live
-          git rm -r --cached .
-          git add dist/   # Add only the contents of the dist directory
+          git rm -r --cached dist
+          mv dist/* .   # Move the contents of the dist directory to the root
+          git add .
           git commit -m "Deploying latest build"
           git remote set-url origin https://$PAT_TOKEN@github.com/loay98/auto-build.git
           git push origin live

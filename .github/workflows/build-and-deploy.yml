@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Build and Deploy Angular Project
 
 on:
   push:
@@ -27,22 +27,13 @@ jobs:
       - name: Build Angular project
         run: ng build --aot --build-optimizer --base-href=/auto-build/
 
-      - name: Set up Git
+      - name: Deploy to live branch
         run: |
           git config user.name "loay98"
           git config user.email "loay@prosys.ai"
-
-      - name: Delete files in live branch
-        run: |
-          git checkout -B live
-          git rm -rf .
-          git commit -m "Remove all files from live branch"
-          git push -f origin live
-
-      - name: Copy dist folder to live branch
-        run: |
-          git checkout main
-          git checkout live -- dist
-          git add dist
-          git commit -m "Update live branch with dist folder"
+          git checkout -b live
+          git rm -r --cached .
+          git add dist/*   # Add only the contents of the dist directory
+          git commit -m "Deploying latest build"
+          git remote set-url origin https://$PAT_TOKEN@github.com/loay98/auto-build.git
           git push origin live

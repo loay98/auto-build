@@ -1,4 +1,4 @@
-name: Build and Deploy Angular Project
+name: Build and Deploy
 
 on:
   push:
@@ -18,30 +18,23 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install Angular CLI
-        run: npm install -g @angular/cli
-
       - name: Install dependencies
         run: npm install
 
       - name: Build Angular project
         run: ng build --aot --build-optimizer --base-href=/auto-build/
 
-      - name: Deploy to live branch
+      - name: Delete files in live branch
         run: |
-          git checkout live
-          git pull origin live
-          rm -rf *
-          mv dist/* ./
-          git add -A
-          git commit -m "Auto-deploy from main branch"
-          git push
+          git checkout -B live
+          git rm -rf .
+          git commit -m "Remove all files from live branch"
+          git push -f origin live
 
-      - name: Set up Git
+      - name: Copy dist folder to live branch
         run: |
-          git config user.name "loay98"
-          git config user.email "loay@prosys.ai"
-
-      - name: Push changes to live branch
-        run: git push origin live
-
+          git checkout main
+          git checkout live -- dist
+          git add dist
+          git commit -m "Update live branch with dist folder"
+          git push origin live

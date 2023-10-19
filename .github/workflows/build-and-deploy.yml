@@ -36,4 +36,5 @@ jobs:
           git add dist/*   # Add only the contents of the dist directory
           git commit -m "Deploying latest build"
           git remote set-url origin https://$PAT_TOKEN@github.com/loay98/auto-build.git
+          git pull origin live --rebase # Pull and rebase any changes from the remote live branch
           git push origin live

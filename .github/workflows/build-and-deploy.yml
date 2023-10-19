@@ -32,7 +32,7 @@ jobs:
           git config user.name "loay98"
           git config user.email "loay@prosys.ai"
           git checkout -b live
-          git rm -r --cached dist
+          git rm -r --cached .
           mv dist/* .   # Move the contents of the dist directory to the root
           git add .
           git commit -m "Deploying latest build"

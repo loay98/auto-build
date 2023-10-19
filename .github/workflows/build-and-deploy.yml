@@ -35,4 +35,6 @@ jobs:
           git add dist/   # Assuming your build output is in a 'dist' folder
           git commit -m "Deploying latest build"
           git push origin live
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
 

@@ -42,12 +42,23 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      # Change base-hred to the name of the angular project
-      - name: Build Angular application
-        run: ng build --aot --build-optimizer --base-href=/auto-build/
+      # Method 1: Take name same as git repo
+      - name: Set base-href
+        id: set-base-href
+        run: |
+          echo "::set-output name=baseHref::/$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)/"
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
 
-      - name: Delete all files
-        run: find . -maxdepth 1 ! -name '.' ! -name '.gitignore' ! -name 'ecosystem.config.js' ! -name 'pull-webhook.php' ! -name '.git' ! -name '.dist' -exec rm -r {} \;
+
+      # Method 2: Manual set base-hred
+      # - name: Build Angular application
+      #   run: ng build --aot --build-optimizer --base-href=/auto-build/
+
+      - name: Delete unwanted files and folders
+        run: |
+          find . -maxdepth 1 -type f ! -name '.gitignore' ! -name 'ecosystem.config.js' ! -name 'pull-webhook.php' -exec rm {} \;
+          find . -maxdepth 1 -type d ! -name '.git' ! -name '.dist' -exec rm -r {} \;
 
       - name: Move folder out of output folder
         run: mv .dist/* .

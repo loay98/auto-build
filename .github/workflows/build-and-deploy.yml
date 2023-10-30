@@ -47,7 +47,7 @@ jobs:
         run: ng build --aot --build-optimizer --base-href=/auto-build/
 
       - name: Delete all files
-        run: find . -maxdepth 1 ! -name '.' ! -name '.gitignore' ! -name 'ecosystem.config.js' ! -name 'pull-webhook.php' ! -name '.git' ! -name '.output' -exec rm -r {} \;
+        run: find . -maxdepth 1 ! -name '.' ! -name '.gitignore' ! -name 'ecosystem.config.js' ! -name 'pull-webhook.php' ! -name '.git' ! -name '.dist' -exec rm -r {} \;
 
       - name: Move folder out of output folder
         run: mv .dist/* .

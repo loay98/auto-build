@@ -36,6 +36,9 @@ jobs:
       - name: Merge main to live branch
         run: git merge main --allow-unrelated-histories
 
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
+
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 

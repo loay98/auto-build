@@ -46,12 +46,12 @@ jobs:
         run: |
           # Get the repository name without the owner
           REPO_NAME=$(echo $GITHUB_REPOSITORY | cut -d '/' -f 2)
-          BASE_HREF="/auto-build/$REPO_NAME/"
+          BASE_HREF="$REPO_NAME"
           echo "BASE_HREF=$BASE_HREF" >> $GITHUB_ENV
         shell: bash
 
       - name: Build Angular application
-        run: ng build --aot --build-optimizer --base-href=$BASE_HREF
+        run: ng build --aot --build-optimizer --base-href=/$BASE_HREF/
 
       - name: Delete unwanted files and folders
         run: |

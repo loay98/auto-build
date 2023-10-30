@@ -43,12 +43,12 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Set Base Href
-        run: |
-          # Get the repository name without the owner
-          REPO_NAME=$(echo $GITHUB_REPOSITORY | cut -d '/' -f 2)
-          export BASE_HREF="$REPO_NAME/"
-          echo "::set-env name=BASE_HREF::$BASE_HREF"
-        shell: bash
+          run: |
+            # Get the repository name without the owner
+            REPO_NAME=$(echo $GITHUB_REPOSITORY | cut -d '/' -f 2)
+            BASE_HREF="/auto-build/$REPO_NAME/"
+            echo "BASE_HREF=$BASE_HREF" >> $GITHUB_ENV
+          shell: bash
 
       - name: Build Angular application
         run: ng build --aot --build-optimizer --base-href=$BASE_HREF

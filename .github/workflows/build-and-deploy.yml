@@ -58,10 +58,10 @@ jobs:
       - name: Delete unwanted files and folders
         run: |
           find . -maxdepth 1 -type f ! -name '.gitignore' ! -name 'ecosystem.config.js' ! -name 'pull-webhook.php' -exec rm {} \;
-          find . -maxdepth 1 -type d ! -name '.git' ! -name '.dist' -exec rm -r {} \;
+          find . -maxdepth 1 -type d ! -name '.git' ! -name 'dist' -exec rm -r {} \;
 
       - name: Move folder out of output folder
-        run: mv .dist/* .
+        run: mv dist/* .
 
       - name: Stage the changes
         run: |

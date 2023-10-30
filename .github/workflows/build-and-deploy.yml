@@ -42,18 +42,16 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      # Method 1: Take name same as git repo
-      - name: Set base-href
-        id: set-base-href
+      - name: Set Base Href
         run: |
-          echo "::set-output name=baseHref::/$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)/"
-        env:
-          GITHUB_REPOSITORY: ${{ github.repository }}
+          # Get the repository name without the owner
+          REPO_NAME=$(echo $GITHUB_REPOSITORY | cut -d '/' -f 2)
+          export BASE_HREF="$REPO_NAME/"
+          echo "::set-env name=BASE_HREF::$BASE_HREF"
+        shell: bash
 
-
-      # Method 2: Manual set base-hred
-      # - name: Build Angular application
-      #   run: ng build --aot --build-optimizer --base-href=/auto-build/
+      - name: Build Angular application
+        run: ng build --aot --build-optimizer --base-href=$BASE_HREF
 
       - name: Delete unwanted files and folders
         run: |
@@ -61,9 +59,7 @@ jobs:
           find . -maxdepth 1 -type d ! -name '.git' ! -name 'dist' -exec rm -r {} \;
 
       - name: Move folder out of output folder
-        run: mv dist/${{ github.repository.name }}/* .
-        env:
-          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: mv dist/$BASE_HREF/* .
 
       - name: Stage the changes
         run: |

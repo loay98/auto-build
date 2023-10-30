@@ -61,7 +61,9 @@ jobs:
           find . -maxdepth 1 -type d ! -name '.git' ! -name 'dist' -exec rm -r {} \;
 
       - name: Move folder out of output folder
-        run: mv dist/* .
+        run: mv dist/${{ github.repository_owner }}/* .
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
 
       - name: Stage the changes
         run: |
